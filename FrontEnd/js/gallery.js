@@ -13,8 +13,8 @@ fetch("http://localhost:5678/api/works")
         figure.dataset.categoryId = work.category.id // Ajoute l'ID de la catégorie à l'élément
 
         const img=document.createElement("img"); // Crée l'élément img
-        img.src = work.imageUrl;
-        img.alt = work.title;
+        img.src = work.imageUrl; // Ajoute l'image
+        img.alt = work.title; // Ajoute l
 
 
         const figcaption=document.createElement("figcaption"); // Crée l'élément figcaption
@@ -67,7 +67,6 @@ fetch("http://localhost:5678/api/works")
         const btnFilters=document.createElement("button"); // Crée l'élément bouton
         btnFilters.textContent = category.name;
         btnFilters.classList.add("filter-btn");
-        btnFilters.dataset.categoryId = category.id // Ajoute l'ID de la catégorie à l'élément
 
         // Ajoute les boutons filtres au DOM
 
@@ -77,7 +76,7 @@ fetch("http://localhost:5678/api/works")
         //Ajout eventListener click bouton filtre
 
         btnFilters.addEventListener("click", () => {
-            filterGalleryByCategory(category.id); // pas de choix d'id, montrer tous les travaux
+            filterGalleryByCategory(category.id); 
             });
 
 
@@ -89,11 +88,11 @@ fetch("http://localhost:5678/api/works")
 
     const galleryItems = document.querySelectorAll(".gallery figure")
 
-    galleryItems.forEach(item => {
-        if (categoryId === null || item.dataset.categoryId == categoryId){
-                item.style.display = "block"; // Affiche l'élément
+    galleryItems.forEach(galleryItem => {
+        if (categoryId === null || galleryItem.dataset.categoryId == categoryId){
+            galleryItem.style.display = "block"; // Affiche l'élément
         } else {
-            item.style.display = "none"; // Cache l'élément
+            galleryItem.style.display = "none"; // Cache l'élément
         }
 
     });
