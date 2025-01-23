@@ -14,7 +14,7 @@ fetch("http://localhost:5678/api/works")
 
         const img=document.createElement("img"); // Crée l'élément img
         img.src = work.imageUrl; // Ajoute l'image
-        img.alt = work.title; // Ajoute l
+        img.alt = work.title; 
 
 
         const figcaption=document.createElement("figcaption"); // Crée l'élément figcaption
@@ -38,16 +38,16 @@ fetch("http://localhost:5678/api/works")
     // Fonction pour filtrer les travaux
 
     fetch("http://localhost:5678/api/categories")
-        .then(data => data.json()) // Convertit en json
+        .then(dataCategories => dataCategories.json()) // Convertit en json
         .then (jsonlistCategories => {
 
-    const categoriesContainer = document.querySelector("#filters"); // Élement HTML pour afficher les catégories à filtrer
+    const categoriesContainer = document.querySelector("#filters"); // Élement HTML pour afficher les boutons filtres
 
     //Création d'un bouton "tous"
 
     const btnAll = document.createElement("button");
     btnAll.textContent = "Tous";
-    btnAll.classList.add("filter-btn");
+    btnAll.classList.add("filter-btnAll");
 
     
     //Ajout du bouton "tous" au DOM
