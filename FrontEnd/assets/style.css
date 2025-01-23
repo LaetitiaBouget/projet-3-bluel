@@ -120,6 +120,30 @@ a:visited{
 li:hover {
 	color: #B1663C;
 }
+/**Affichage mode édition**/
+
+.mode-edition .bandeau-edit{
+	background-color: #000000;
+	text-align: center;
+	padding-top:17px;
+    height: 40px;
+	color:#ffffff;
+}
+
+.mode-edition .travaux-edit{
+	display: inline-block;
+	margin-left: 20px;
+}
+
+.mode-edition #portfolio h2{
+	display: inline-block;
+}
+
+.mode-edition #portfolio {
+	text-align: center;
+}
+
+
 #introduction {
 	display: flex;
 	align-items: center;
