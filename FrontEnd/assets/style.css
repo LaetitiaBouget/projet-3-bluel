@@ -248,7 +248,7 @@ border-radius: 30px;
 	background: white;
 	padding: 30px;
 	height: 65%;
-	max-width: 550px;
+	width:550px;
 	top:40%;
 	left:50%;
 	border-radius: 10px;
@@ -266,6 +266,10 @@ border-radius: 30px;
 	border-bottom: solid 1px #b3b2ae;
 	overflow-y: auto;
 	}
+
+.modal-gallery.no-border {
+	border-bottom: none;
+}
 
 .modal-gallery i{
 	display:flex;
@@ -306,6 +310,7 @@ border-radius: 30px;
 	font-weight: 700;
 	font-size: 14px;
 	border-radius: 30px;
+	cursor: pointer;
 }
 .modal h3{
 	text-align: center;	
