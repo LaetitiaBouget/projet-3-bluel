@@ -3,7 +3,6 @@ const body = document.querySelector('body');
 const navLogin = document.getElementById("nav-login");
 const header = document.querySelector("header");
 const h2 = document.querySelector("#portfolio h2");
-const portfolioSectionEdit = document.querySelector("#portfolio");
 
 
 function createBannerEdit(){
@@ -18,8 +17,8 @@ function createBannerEdit(){
 
 function createWorksEdit(){
     const worksEdit = document.createElement("p");
-    worksEdit.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> modifier`
-    worksEdit.classList.add("travaux-edit")
+    worksEdit.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> <a href="#modal" class="js-link-modal">Modifier</a>`
+    worksEdit.classList.add("travaux-edit");
     h2.insertAdjacentElement("afterend", worksEdit);
     return worksEdit
 }

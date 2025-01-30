@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 	<script src="./js/gallery.js" defer></script>
 	<script src="./js/edit.js" defer></script>
+	<script src="./js/modal.js" defer></script>
 </head>
 <body>
 <header>
@@ -19,9 +20,9 @@
 	<nav>
 		<ul>
 			<li><a href="index.html">projets</a></li>
-			<li>contact</li>
+			<li><a href="#">contact</a></li>
 			<li><a href="login.html" id="nav-login">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram" id="icone-instagram"></li>
+			<li><a href="#"><img src="./assets/icons/instagram.png" alt="Instagram" id="icone-instagram"></a></li>
 		</ul>
 	</nav>
 </header>
@@ -37,12 +38,23 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
+
 	<section id="portfolio">
 		<h2>Mes Projets</h2>
 		<div id="filters"></div>
 		<div class="gallery">
 		</div>
 	</section>
+
+	<aside id="modal" class="modal" >
+		<div class="overlay-modal"></div>
+		<div class="modal-wrapper js-modal-stop">
+			<button class="js-modal-close"><i class="fa-solid fa-xmark"></i></button>
+			<h3>Galerie photo</h3>
+			<div class="modal-gallery"></div>
+		</div>
+	</aside>
+	
 	<section id="contact">
 		<h2>Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
@@ -56,6 +68,7 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
+
 </main>
 
 <footer>

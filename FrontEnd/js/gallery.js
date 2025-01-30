@@ -1,26 +1,21 @@
-// Fonction pour récupérer les données de l'API
 fetch("http://localhost:5678/api/works")
-  .then(dataWorks => dataWorks.json()) // Convertit en json
+  .then(dataWorks => dataWorks.json())
   .then (jsonlistWorks => {
 
-    const galleryContainer = document.querySelector(".gallery"); // Élement HTML pour afficher les travaux
+    const galleryContainer = document.querySelector(".gallery");
 
-    //Fonction pour parcourir les travaux
+      jsonlistWorks.forEach(work => {
 
-    jsonlistWorks.forEach(work => {
+        const figure=document.createElement("figure");
+        figure.dataset.categoryId = work.category.id
 
-        const figure=document.createElement("figure"); // Crée l'élément figure
-        figure.dataset.categoryId = work.category.id // Ajoute l'ID de la catégorie à l'élément
-
-        const img=document.createElement("img"); // Crée l'élément img
-        img.src = work.imageUrl; // Ajoute l'image
+        const img=document.createElement("img");
+        img.src = work.imageUrl;
         img.alt = work.title; 
 
-
-        const figcaption=document.createElement("figcaption"); // Crée l'élément figcaption
+        const figcaption=document.createElement("figcaption");
         figcaption.textContent = work.title;
 
-        // Rattache les élements crées à leurs parents
         figure.appendChild(img);
         figure.appendChild(figcaption);
         galleryContainer.appendChild(figure);
@@ -28,61 +23,39 @@ fetch("http://localhost:5678/api/works")
     });
 
 })
-
-    // Retourne message si erreur
     .catch(error => {
         console.error("Erreur lors du fetch:", error );
     })
     
 
-    // Fonction pour filtrer les travaux
-
     fetch("http://localhost:5678/api/categories")
-        .then(dataCategories => dataCategories.json()) // Convertit en json
+        .then(dataCategories => dataCategories.json())
         .then (jsonlistCategories => {
 
-    const categoriesContainer = document.querySelector("#filters"); // Élement HTML pour afficher les boutons filtres
-
-    //Création d'un bouton "tous"
+    const categoriesContainer = document.querySelector("#filters");
 
     const btnAll = document.createElement("button");
     btnAll.textContent = "Tous";
     btnAll.classList.add("filter-btnAll");
 
-    
-    //Ajout du bouton "tous" au DOM
-
     categoriesContainer.appendChild(btnAll);
 
-    //Ajout eventListener click bouton "tous"
-
     btnAll.addEventListener("click", () => {
-        filterGalleryByCategory(null); // pas de choix d'id, montrer tous les travaux
+        filterGalleryByCategory(null);
     });
-
-    //Fonction pour parcourir les catégories
 
     jsonlistCategories.forEach(category => {
 
-        const btnFilters=document.createElement("button"); // Crée l'élément bouton
+        const btnFilters=document.createElement("button");
         btnFilters.textContent = category.name;
         btnFilters.classList.add("filter-btn");
 
-        // Ajoute les boutons filtres au DOM
-
         categoriesContainer.appendChild(btnFilters);
-
-
-        //Ajout eventListener click bouton filtre
 
         btnFilters.addEventListener("click", () => {
             filterGalleryByCategory(category.id); 
             });
-
-
     });
-
-    //Fonction pour filtrer les catégories
 
     function filterGalleryByCategory(categoryId) {
 
@@ -90,9 +63,9 @@ fetch("http://localhost:5678/api/works")
 
     galleryItems.forEach(galleryItem => {
         if (categoryId === null || galleryItem.dataset.categoryId == categoryId){
-            galleryItem.style.display = "block"; // Affiche l'élément
+            galleryItem.style.display = "block";
         } else {
-            galleryItem.style.display = "none"; // Cache l'élément
+            galleryItem.style.display = "none";
         }
 
     });
