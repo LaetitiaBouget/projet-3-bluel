@@ -1,4 +1,4 @@
-const authToken = localStorage.getItem('authToken');
+const authToken = sessionStorage.getItem('authToken');
 const body = document.querySelector('body'); 
 const navLogin = document.getElementById("nav-login");
 const header = document.querySelector("header");
@@ -44,7 +44,7 @@ function modeEdit(bannerEdit, worksEdit){
 function logout(){
     navLogin.addEventListener("click", function (event) {
         if (authToken !== null) {
-            localStorage.clear(); 
+            sessionStorage.clear(); 
             window.location.href = "./index.html";
         }
     });

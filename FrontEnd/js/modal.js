@@ -31,7 +31,7 @@ document.querySelectorAll("a.js-link-modal").forEach (a => {
     a.addEventListener("click", openModal)
 })
 
-//Edit travaux depuis la modale
+//Suppresion travaux depuis la modale
 
 fetch("http://localhost:5678/api/works")
   .then(dataWorks => dataWorks.json())
@@ -42,6 +42,7 @@ fetch("http://localhost:5678/api/works")
       jsonlistWorks.forEach(work => {
 
         const removeWork=document.createElement("div");
+        removeWork.dataset.workId = work.id
         removeWork.classList.add("remove-work")
 
         const img=document.createElement("img");
@@ -51,10 +52,35 @@ fetch("http://localhost:5678/api/works")
         const icon = document.createElement("i");
         icon.classList.add("fa-solid", "fa-trash-can");
 
-
         removeWork.appendChild(img);
         removeWork.appendChild(icon);
         editGallery.appendChild(removeWork);
+
+
+    icon.addEventListener("click", () => {
+
+        const workId = work.id;
+        const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce travail ?");
+        
+            if (confirmation){
+                fetch (`http://localhost:5678/api/works/${work.id}`,{
+                    method : 'DELETE',
+                    headers : {
+                    "Authorization": "Bearer " + authToken,
+                    }
+            })
+            
+            .then (response => {
+                if (response.ok) {
+                    removeWork.remove();
+                }
+                else {
+                    alert("Erreur lors de la suppression")
+                }
+            })
+        }
+
+        });
 
     });
 

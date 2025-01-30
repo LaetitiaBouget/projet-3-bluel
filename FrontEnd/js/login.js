@@ -20,7 +20,7 @@ const result = await response.json();
 
 if (response.ok) {
     
-    localStorage.setItem('authToken', result.token);
+    sessionStorage.setItem('authToken', result.token);
 
     window.location.href = "./index.html";
 }
