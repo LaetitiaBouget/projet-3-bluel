@@ -57,35 +57,34 @@ fetch("http://localhost:5678/api/works")
         editGallery.appendChild(removeWork);
 
 
-    icon.addEventListener("click", () => {
+icon.addEventListener("click", () => {
 
-        const workId = work.id;
-        const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce travail ?");
+    const workId = work.id;
+    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce travail ?");
         
-            if (confirmation){
-                fetch (`http://localhost:5678/api/works/${work.id}`,{
-                    method : 'DELETE',
-                    headers : {
-                    "Authorization": "Bearer " + authToken,
-                    }
+        if (confirmation){
+            fetch (`http://localhost:5678/api/works/${work.id}`,{
+                method : 'DELETE',
+                headers : {
+                "Authorization": "Bearer " + authToken,
+                }
             })
             
-            .then (response => {
-                if (response.ok) {
-                    removeWork.remove();
-                }
-                else {
-                    alert("Erreur lors de la suppression")
-                }
-            })
-        }
-
-        });
+        .then (response => {
+            if (response.ok) {
+                removeWork.remove();
+            }
+            else {
+                alert("Erreur lors de la suppression")
+            }
+        })
+    }
 
     });
 
-})
+});
 
+})
 
 .catch(error => {
     console.error("Erreur lors du fetch:", error );
@@ -93,3 +92,12 @@ fetch("http://localhost:5678/api/works")
 
 
 //Ajout travaux depuis la modale
+
+const addWork = document.querySelector("add-work-btn");
+
+addWork.addEventListener("click", () => {
+
+    
+
+
+})
