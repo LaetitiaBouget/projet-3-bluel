@@ -11,7 +11,7 @@ function openModal (e){
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation);
 
     const addWorkBtn = modal.querySelector(".add-work-btn");
-    addWorkBtn.addEventListener("click", addWork);
+    addWorkBtn.addEventListener("click", addWorkModal);
 
     loadGalleryModal();
 }
@@ -28,7 +28,31 @@ function closeModal (e){
     modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation);
     
     modal = null;
+
+    fetch("http://localhost:5678/api/works")
+    .then(dataWorks => dataWorks.json())
+    .then (jsonlistWorks => {
+    const galleryContainer = document.querySelector(".gallery");
+    galleryContainer.innerHTML = "";
+
+    jsonlistWorks.forEach(work => {
+        const figure = document.createElement("figure");
+        figure.dataset.categoryId = work.category.id;
+
+        const img = document.createElement("img");
+        img.src = work.imageUrl;
+        img.alt = work.title;
+
+        const figcaption = document.createElement("figcaption");
+        figcaption.textContent = work.title;
+
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        galleryContainer.appendChild(figure);
+    });
+})
 }
+
 
 function resetModal (){
     const modalGallery = modal.querySelector(".modal-gallery");
@@ -36,9 +60,24 @@ function resetModal (){
     const addWorkBtn = modal.querySelector(".add-work-btn");
 
     modalGallery.innerHTML = '';
+    modalGallery.style.display = 'flex';
     modalGallery.classList.remove("no-border");
     h3modalWrapper.innerHTML = 'Galerie photo';
     addWorkBtn.style.display = 'block';
+
+    const addWorkForm = modal.querySelector("#add-work-form");
+    addWorkForm.style.display = 'none';
+
+    const imagePreview = document.querySelector("#image-preview");
+    imagePreview.style.display = "none";
+
+    const fileUpload = document.querySelector(".upload");
+    fileUpload.style.display = "flex";
+
+    document.querySelector("#form-title").value = "";
+
+    document.querySelector("#select-category").value = "";
+
 }
 
 function stopPropagation (e){
@@ -90,6 +129,7 @@ function loadGalleryModal (){
                 })
                         
                 .then (response => {
+                    
                     if (response.ok) {
                         removeWork.remove();
                     }
@@ -104,9 +144,9 @@ function loadGalleryModal (){
 })
 }
 
-function addWork (){
+function addWorkModal (){
     const modalGallery = modal.querySelector(".modal-gallery");
-    modalGallery.innerHTML = '';
+    modalGallery.style.display = 'none';
     modalGallery.classList.add("no-border");
 
     const h3modalWrapper = modal.querySelector(".modal-wrapper h3");
@@ -114,5 +154,100 @@ function addWork (){
 
     const addWorkBtn = modal.querySelector(".add-work-btn");
     addWorkBtn.style.display = 'none'; 
+
+    const addWorkForm = modal.querySelector("#add-work-form");
+    addWorkForm.style.display = 'flex';
+
+    document.getElementById('file-select-btn').addEventListener('click', function() {
+        document.getElementById('image-upload').click();
+      });
+    
 }
+
+
+fetch("http://localhost:5678/api/categories")
+        .then(dataCategories => dataCategories.json())
+        .then (jsonlistCategories => {
+
+    const formSelectCategory = document.querySelector("#select-category");
+
+        const emptyOption = document.createElement("option");
+        emptyOption.textContent = "";
+        emptyOption.value = "";
+        emptyOption.selected = true;
+
+        formSelectCategory.appendChild(emptyOption);
+
+        jsonlistCategories.forEach(category => {
+
+        const selectOption=document.createElement("option");
+        selectOption.textContent = category.name;
+        selectOption.value = category.id;
+        formSelectCategory.appendChild(selectOption);
+
+    });
+})
+;
+
+function uploadImage (){
+document.querySelector("#image-upload").addEventListener("change", function () {
+    const file = this.files[0];
+    const imagePreview = document.querySelector("#image-preview");
+
+    if (file){
+
+        const allowedTypes = ["image/png", "image/jpeg"];
+        const allowedSize = 4 * 1024 *1024;
+
+        if (!allowedTypes.includes(file.type)){
+            alert("Veuillez choisir un format d'image valide.");
+            this.value = "";
+            imagePreview.style.display = "none";
+            return;
+        }
+
+        if (file.size > allowedSize) {
+            alert ("Image trop volumineuse.");
+            this.value = "";
+            imagePreview.style.display = "none";
+            return;
+        }
+
+        imagePreview.src = URL.createObjectURL(file);
+        imagePreview.style.display = "block";
+
+        const fileUpload = document.querySelector(".upload");
+        fileUpload.style.display = "none";
+
+    }
+});
+}
+
+uploadImage();
+
+function addWork(){
+
+    const formAddWork = document.querySelector("#add-work-form");
+        formAddWork.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(formAddWork);
+
+            const response = await fetch('http://localhost:5678/api/works', {
+                method: 'POST',
+                headers: {
+                    "Authorization": "Bearer " + authToken,
+                },
+                body: formData,
+            });
+            
+            if (response.ok) {
+                
+            } else {
+                alert("Erreur, veuillez réessayer.");
+            }            
+        });
+}
+    
+addWork();
 

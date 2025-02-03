@@ -53,6 +53,26 @@
 			<h3>Galerie photo</h3>
 			<div class="modal-gallery"></div>
 			<button class="add-work-btn">Ajouter une photo</button>
+
+			<form id="add-work-form" enctype="multipart/form-data" method="post">
+
+				<div class="upload-container">
+						<div class="upload">
+							<i class="fa-regular fa-image"></i>
+							<input type="file" id="image-upload" name="image" accept="image/png, image/jpeg" required />
+							<button id="file-select-btn" type="button">+ Ajouter photo</button>
+							<p>jpg, png : 4mo max</p>
+						</div>
+						<img id="image-preview">		
+				</div>
+
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="form-title" required>
+				<label for="category">Catégorie</label>
+				<select name="category" id="select-category" required></select>
+				<hr class="separator">
+				<button type="submit" id="submit-btn">Valider</button>
+			</form>
 		</div>
 	</aside>
 	
