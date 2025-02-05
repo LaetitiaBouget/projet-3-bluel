@@ -53,7 +53,6 @@ function closeModal (e){
 })
 }
 
-
 function resetModal (){
     const modalGallery = modal.querySelector(".modal-gallery");
     const h3modalWrapper = modal.querySelector(".modal-wrapper h3");
@@ -77,6 +76,10 @@ function resetModal (){
     document.querySelector("#form-title").value = "";
 
     document.querySelector("#select-category").value = "";
+
+    const submitBtn = document.querySelector("#submit-btn");
+    submitBtn.disabled = true;
+    submitBtn.classList.remove("ready");
 
 }
 
@@ -164,7 +167,6 @@ function addWorkModal (){
     
 }
 
-
 fetch("http://localhost:5678/api/categories")
         .then(dataCategories => dataCategories.json())
         .then (jsonlistCategories => {
@@ -190,14 +192,19 @@ fetch("http://localhost:5678/api/categories")
 ;
 
 function uploadImage (){
-document.querySelector("#image-upload").addEventListener("change", function () {
-    const file = this.files[0];
+    
+    const imageUploadInput = document.querySelector("#image-upload");
     const imagePreview = document.querySelector("#image-preview");
+    const submitBtn = document.querySelector("#submit-btn");
+
+
+    document.querySelector("#image-upload").addEventListener("change", function () {
+    const file = this.files[0];
+    const allowedTypes = ["image/png", "image/jpeg"];
+    const allowedSize = 4 * 1024 *1024;
+    const fileUpload = document.querySelector(".upload");
 
     if (file){
-
-        const allowedTypes = ["image/png", "image/jpeg"];
-        const allowedSize = 4 * 1024 *1024;
 
         if (!allowedTypes.includes(file.type)){
             alert("Veuillez choisir un format d'image valide.");
@@ -216,14 +223,44 @@ document.querySelector("#image-upload").addEventListener("change", function () {
         imagePreview.src = URL.createObjectURL(file);
         imagePreview.style.display = "block";
 
-        const fileUpload = document.querySelector(".upload");
-        fileUpload.style.display = "none";
-
+    }else {
+        imagePreview.style.display = "none";
+        fileUpload.style.display = "flex";
     }
-});
+
+        fileUpload.style.display = "none";
+    }
+);
+
+    imagePreview.addEventListener("click", function () {
+        imageUploadInput.value = "";
+        imagePreview.style.display = "none";
+        imageUploadInput.click();
+    });
 }
 
+function checkFormValidity() {
+const imageUploadInput = document.querySelector("#image-upload");
+const titleInput = document.querySelector("#form-title");
+const categorySelect = document.querySelector("#select-category");
+const submitBtn = document.querySelector("#submit-btn");
+
+if (imageUploadInput.files.length > 0 && titleInput.value.trim() !== "" && categorySelect.value !== "") {
+    submitBtn.disabled = false;
+    submitBtn.classList.add("ready");
+} else {
+    submitBtn.disabled = true;
+    submitBtn.classList.remove("ready");
+}
+
+}
+
+["#image-upload", "#form-title", "#select-category"].forEach(selector => {
+    document.querySelector(selector).addEventListener("input", checkFormValidity);
+});
+
 uploadImage();
+checkFormValidity();
 
 function addWork(){
 
@@ -242,6 +279,15 @@ function addWork(){
             });
             
             if (response.ok) {
+
+            const toast = document.createElement("div");
+            toast.classList.add("toast");
+            toast.textContent = "Nouveau travail ajouté avec succès !";
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
                 
             } else {
                 alert("Erreur, veuillez réessayer.");

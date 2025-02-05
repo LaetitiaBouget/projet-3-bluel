@@ -452,8 +452,15 @@ border-radius: 30px;
 	font-weight: 700;
 	font-size: 14px;
 	border-radius: 30px;
-	cursor: pointer;
+	cursor: not-allowed,
 }
+
+#submit-btn.ready {
+	cursor: pointer;
+	background-color: #1D6154;
+	color:#ffffff;
+  }
+
 .separator {
 	border: none; 
 	border-top: 1px solid #a7a7a7;
