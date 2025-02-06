@@ -16,18 +16,14 @@ formulaireLogin.addEventListener("submit", async function (event) {
         body: JSON.stringify(user),
     })
 
-const result = await response.json();
+    const result = await response.json();
 
-if (response.ok) {
-    
-    sessionStorage.setItem('authToken', result.token);
-
-    window.location.href = "./index.html";
-}
-else{
-    alert("Erreur dans l’identifiant ou le mot de passe");
-}
-
+    if (response.ok) {
+        sessionStorage.setItem('authToken', result.token);
+        window.location.href = "./index.html";
+    }else{
+        alert("Erreur dans l’identifiant ou le mot de passe");
+    }
 });
 
 
