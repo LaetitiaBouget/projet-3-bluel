@@ -22,7 +22,6 @@ function openModal (e){
     const addWorkBtn = modal.querySelector(".add-work-btn");
     addWorkBtn.addEventListener("click", addWorkModal);
 
-    
     resetModal();
     loadGalleryModal();
 }
@@ -71,35 +70,48 @@ function createModal (){
 createModal();
 
 function loadGalleryModal (){
-    const figureElements = document.querySelectorAll(".gallery figure");
-   
-    figureElements.forEach(figure => {
+    
+    allWorks.forEach(work => {
+        const figure=document.createElement("figure");
+        figure.dataset.categoryId = work.categoryId
+        figure.dataset.workId = work.id;
 
-        const clonedFigure = figure.cloneNode(true);
-        const workId = figure.dataset.workId
+        const img=document.createElement("img");
+        img.src = work.imageUrl;
+        img.alt = work.title; 
+        img.dataset.workId = work.id;
+
+        const figcaption=document.createElement("figcaption");
+        figcaption.textContent = work.title;
+
         const removeWork=document.createElement("div");
-        removeWork.dataset.workId =workId;
+        removeWork.dataset.workId =work.id;
         removeWork.classList.add("remove-work")
 
         const icon = document.createElement("i");
         icon.classList.add("fa-solid", "fa-trash-can");
 
-        removeWork.append(icon);
-        clonedFigure.appendChild(removeWork);
-        editGallery.appendChild(clonedFigure);
+
+        removeWork.appendChild(icon);
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        figure.appendChild(removeWork);
+        editGallery.appendChild(figure);
         
         icon.addEventListener("click", () => {
             const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce travail ?");
                         
             if (confirmation){
-                fetch (`http://localhost:5678/api/works/${workId}`,{
+                fetch (`http://localhost:5678/api/works/${work.id}`,{
                     method : 'DELETE',
                     headers : {"Authorization": "Bearer " + authToken}
                 })
                 .then (response => {
                     if (response.ok) {
-                        clonedFigure.remove();
                         figure.remove();
+                        document.querySelector(`.gallery figure[data-work-id="${work.id}"]`)?.remove();
+                        allWorks = allWorks.filter(w => w.id !== work.id);
+                        notification("Travail supprimé !");     
                     } else {
                         alert("Erreur lors de la suppression")
                     }
@@ -140,7 +152,6 @@ function selectCategoryForm (jsonlistCategories){
 
     });
 }
-
 
 function uploadImage() {
     imageUploadInput.addEventListener("change", function () {
@@ -183,48 +194,46 @@ uploadImage();
 
 function addWork(){
     const formAddWork = document.querySelector("#add-work-form");
-        formAddWork.addEventListener("submit", async function (event) {
+    formAddWork.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-    const formData = new FormData(formAddWork);
+        const formData = new FormData(formAddWork);
 
-    const response = await fetch('http://localhost:5678/api/works', {
-            method: 'POST',
-            headers: {
-                "Authorization": "Bearer " + authToken,
-            },
-            body: formData,
-        });
-            
+        const response = await fetch('http://localhost:5678/api/works', {
+                method: 'POST',
+                headers: {
+                    "Authorization": "Bearer " + authToken,
+                },
+                body: formData,
+            });
+                
         if (response.ok) {
-        const work = await response.json();
-        const galleryContainer = document.querySelector(".gallery");
+            const work = await response.json();
+            allWorks.push(work)
+            console.log(work)
+            console.log(allWorks)
 
-        const figure=document.createElement("figure");
-        figure.dataset.categoryId = work.categoryId
-        figure.dataset.workId = work.id;
+            const galleryContainer = document.querySelector(".gallery");
 
-        const img=document.createElement("img");
-        img.src = work.imageUrl;
-        img.alt = work.title; 
-        img.dataset.workId = work.id;
+            const figure=document.createElement("figure");
+            figure.dataset.categoryId = work.categoryId
+            figure.dataset.workId = work.id;
 
-        const figcaption=document.createElement("figcaption");
-        figcaption.textContent = work.title;
+            const img=document.createElement("img");
+            img.src = work.imageUrl;
+            img.alt = work.title; 
+            img.dataset.workId = work.id;
 
-        figure.appendChild(img);
-        figure.appendChild(figcaption);
-        galleryContainer.appendChild(figure);
+            const figcaption=document.createElement("figcaption");
+            figcaption.textContent = work.title;
 
-        const toast = document.createElement("div");
-        toast.classList.add("toast");
-        toast.textContent = "Nouveau travail ajouté avec succès !";
-        document.body.appendChild(toast);
-            
-        setTimeout(() => {
-        toast.remove();
-        }, 3000);
+            figure.appendChild(img);
+            figure.appendChild(figcaption);
+            galleryContainer.appendChild(figure);
 
+            notification("Nouveau travail ajouté avec succès !");
+            resetModal();
+            loadGalleryModal();
 
         } else {
             alert("Erreur, veuillez réessayer.");
@@ -234,3 +243,13 @@ function addWork(){
     
 addWork();
 
+function notification (message){
+    const toast = document.createElement("div");
+        toast.classList.add("toast");
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+        toast.remove();
+        }, 3000);
+
+}

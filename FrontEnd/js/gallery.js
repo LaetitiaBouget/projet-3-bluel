@@ -1,6 +1,10 @@
+let allWorks = [];
+
 fetch("http://localhost:5678/api/works")
   .then(dataWorks => dataWorks.json())
   .then (jsonlistWorks => {
+
+    allWorks = jsonlistWorks;
 
     const galleryContainer = document.querySelector(".gallery");
 
