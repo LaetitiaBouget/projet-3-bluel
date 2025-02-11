@@ -200,6 +200,8 @@ li:hover {
 
 .gallery img {
 	width: 100%;
+	height: 415px;
+	object-fit: cover;
 }
 
 #filters{
@@ -259,7 +261,7 @@ border-radius: 30px;
 	flex-direction: column;
 	background: white;
 	padding: 30px;
-	height: 65%;
+	height: 600px;
 	width:590px;
 	top:40%;
 	left:50%;
@@ -273,7 +275,7 @@ border-radius: 30px;
 	height:100%;
 	flex-wrap: wrap;
 	column-gap:12px;
-	row-gap: 10px;
+	row-gap: 30px;
 	padding:5px;
 	padding-bottom: 50px;
 	border-bottom: solid 1px #b3b2ae;
@@ -514,10 +516,15 @@ border-radius: 30px;
 	margin-top: 2em;
 	margin-bottom: 20px;
 }
-#contact form,
-#login form {
+#contact form{
 	text-align: left;
 	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#login form{
+	text-align: left;
 	display: flex;
 	flex-direction: column;
 }
@@ -555,6 +562,13 @@ border-radius: 30px;
 	width: 40%;
 	margin: auto;
 	margin-top: 100px;
+	display: flex;
+	flex-direction:column;
+}
+
+#login a{
+	text-decoration: underline;
+	color:#444444;
 }
 
 footer{
