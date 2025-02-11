@@ -296,10 +296,6 @@ border-radius: 30px;
 	cursor: pointer;
 }
 
-#add-work-form{
-    display:none;
-}
-
 .modal-gallery i{
 	display:flex;
 	justify-content: center;
@@ -398,8 +394,6 @@ border-radius: 30px;
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #b5c4a3;
-    color: white;
     padding: 15px;
     border-radius: 5px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -413,6 +407,15 @@ border-radius: 30px;
     opacity: 0;
 }
 
+.toast.success{
+	background-color: #1d6154;
+    color: white;
+}
+
+.toast.error {
+    background-color: #a44027;
+	color: white;
+}
 
 #file-select-btn{
 	color: #306685;
@@ -491,8 +494,6 @@ border-radius: 30px;
 	margin: 30px 0;
   	margin-bottom: 15px;
   }
-
-
 
 #contact {
 	width: 40%;

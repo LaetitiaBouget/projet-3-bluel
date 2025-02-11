@@ -3,15 +3,22 @@ let allWorks = [];
 fetch("http://localhost:5678/api/works")
   .then(dataWorks => dataWorks.json())
   .then (jsonlistWorks => {
-
+    
     allWorks = jsonlistWorks;
+    renderGallery(allWorks, ".gallery");
+  })
 
-    const galleryContainer = document.querySelector(".gallery");
+  .catch(error => {
+    console.error("Erreur lors du fetch:", error)
+  });
 
-      jsonlistWorks.forEach(work => {
+function renderGallery(works, gallerySelector) {
+    const gallery = document.querySelector(gallerySelector);
+    gallery.innerHTML =""; 
 
+    works.forEach(work => {
         const figure=document.createElement("figure");
-        figure.dataset.categoryId = work.category.id
+        figure.dataset.categoryId = work.categoryId;
         figure.dataset.workId = work.id;
 
         const img=document.createElement("img");
@@ -24,15 +31,23 @@ fetch("http://localhost:5678/api/works")
 
         figure.appendChild(img);
         figure.appendChild(figcaption);
-        galleryContainer.appendChild(figure);
+        gallery.appendChild(figure);
 
+        if (gallerySelector ===".modal-gallery") {
+            const removeWork=document.createElement("div");
+            removeWork.dataset.workId =work.id;
+            removeWork.classList.add("remove-work")
+
+            const icon = document.createElement("i");
+            icon.classList.add("fa-solid", "fa-trash-can");
+
+            removeWork.appendChild(icon);
+            figure.appendChild(removeWork);
+
+            icon.addEventListener("click", () => removeWorkFromGallery(work));
+        }
     });
-
-})
-    .catch(error => {
-        console.error("Erreur lors du fetch:", error );
-    })
-    
+}
 
 fetch("http://localhost:5678/api/categories")
     .then(dataCategories => dataCategories.json())
@@ -51,34 +66,32 @@ fetch("http://localhost:5678/api/categories")
             filterGalleryByCategory(null);
         });
 
-    jsonlistCategories.forEach(category => {
+        jsonlistCategories.forEach(category => {
+            const categoryFilters=document.createElement("button");
 
-        const categoryFilters=document.createElement("button");
-        categoryFilters.textContent = category.name;
-        categoryFilters.classList.add("filter-btn");
+            categoryFilters.textContent = category.name;
+            categoryFilters.classList.add("filter-btn");
 
-        categoryFilters.dataset.categoryId = category.id;
-        categoriesContainer.appendChild(categoryFilters);
+            categoryFilters.dataset.categoryId = category.id;
+            categoriesContainer.appendChild(categoryFilters);
 
-        categoryFilters.addEventListener("click", () => {
+            categoryFilters.addEventListener("click", () => {
             filterGalleryByCategory(category.id); 
             });
-});
-
-    function filterGalleryByCategory(categoryId) {
-
-        const galleryItems = document.querySelectorAll(".gallery figure")
-
-        galleryItems.forEach(galleryItem => {
-            if (categoryId === null || galleryItem.dataset.categoryId == categoryId){
-                galleryItem.style.display = "block";
-            } else {
-                galleryItem.style.display = "none";
-            }
-        });
-    }
-})
-    .catch(error => {
-        console.error("Erreur lors du fetch:", error );
+        }); 
     })
+    .catch(error => { 
+        console.error("Erreur lors du fetch:", error );
+    });
 
+function filterGalleryByCategory(categoryId) {
+    const galleryItems = document.querySelectorAll(".gallery figure")
+
+    galleryItems.forEach(galleryItem => {
+        if (categoryId === null || galleryItem.dataset.categoryId == categoryId){
+            galleryItem.style.display = "block";
+        } else {
+            galleryItem.style.display = "none";
+        }
+    });
+}

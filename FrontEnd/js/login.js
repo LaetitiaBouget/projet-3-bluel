@@ -1,5 +1,7 @@
 const formulaireLogin = document.querySelector("#login-form");
+
 formulaireLogin.addEventListener("submit", async function (event) {
+
     event.preventDefault();
 
     const user = {
