@@ -233,6 +233,11 @@ border-radius: 30px;
 	color:#ffffff;
 	}
 
+.active-tag{
+	background-color: #1D6154;
+	color:#ffffff;
+}
+
 /**Modale**/
 
 .overlay-modal{
@@ -357,6 +362,16 @@ border-radius: 30px;
 	position: absolute;
 	top:10px;
 	right:10px;
+	background-color: transparent;
+	border: none;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.js-back-arrow{
+	position: absolute;
+	top:10px;
+	left:10px;
 	background-color: transparent;
 	border: none;
 	font-size: 20px;

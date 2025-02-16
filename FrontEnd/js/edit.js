@@ -3,6 +3,7 @@ const body = document.querySelector('body');
 const navLogin = document.getElementById("nav-login");
 const header = document.querySelector("header");
 const h2 = document.querySelector("#portfolio h2");
+const categoriesContainer = document.querySelector("#filters");
 
 
 function createBannerEdit(){
@@ -24,12 +25,14 @@ function createWorksEdit(){
 }
 
 function modeEdit(bannerEdit, worksEdit){
+    
     if (authToken !== null) {
         body.classList.add('mode-edition');
         navLogin.innerText = "logout";
         navLogin.setAttribute("href", "#");
         bannerEdit.style.display = "block";
         worksEdit.style.display = "inline-block";
+        categoriesContainer.style.display = "none";
 
     }  else {
 
@@ -38,6 +41,7 @@ function modeEdit(bannerEdit, worksEdit){
         navLogin.setAttribute("href", "login.html");
         bannerEdit.style.display = "none";
         worksEdit.style.display = "none";
+        categoriesContainer.style.display = "flex";
     }
 }
 

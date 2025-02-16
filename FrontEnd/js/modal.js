@@ -37,8 +37,9 @@ function resetModal () {
     const modalGallery = modal.querySelector(".modal-gallery");
     const h3modalWrapper = modal.querySelector(".modal-wrapper h3");
     const addWorkBtn = modal.querySelector(".add-work-btn"); 
+    const backArrow = modal.querySelector(".js-back-arrow");
     
-    toggleDisplay([formAddWork, imagePreview], "none");
+    toggleDisplay([formAddWork, imagePreview, backArrow], "none");
     toggleDisplay([addWorkBtn], "block"); 
     toggleDisplay([fileUpload, modalGallery], "flex"); 
 
@@ -100,12 +101,17 @@ function openAddWorkModal () {
     const modalGallery = modal.querySelector(".modal-gallery");
     const addWorkBtn = modal.querySelector(".add-work-btn");
     const h3modalWrapper = modal.querySelector(".modal-wrapper h3");
-
+    const backArrow = modal.querySelector(".js-back-arrow");
     h3modalWrapper.innerHTML = 'Ajout photo';
 
     toggleDisplay([modalGallery, addWorkBtn], "none");
-    toggleDisplay([submitBtn], "block"); 
+    toggleDisplay([submitBtn, backArrow], "block"); 
     toggleDisplay([formAddWork], "flex"); 
+
+    modal.querySelector(".js-back-arrow").addEventListener("click", () => {
+        resetModal ();
+        loadGalleryModal();
+    });
 
     document.getElementById('file-select-btn').addEventListener('click', function() {
         document.getElementById('image-upload').click();
@@ -113,6 +119,9 @@ function openAddWorkModal () {
 
     uploadImage(); 
 }
+
+
+
 
 function uploadImage() {
     imageUploadInput.addEventListener("change", function () {

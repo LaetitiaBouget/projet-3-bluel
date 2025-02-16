@@ -58,11 +58,12 @@ fetch("http://localhost:5678/api/categories")
         const categoriesContainer = document.querySelector("#filters");
         const btnAll = document.createElement("button");
         btnAll.textContent = "Tous";
-        btnAll.classList.add("filter-btnAll");
+        btnAll.classList.add("filter-btnAll","active-tag");
 
         categoriesContainer.appendChild(btnAll);
 
         btnAll.addEventListener("click", () => {
+            setActiveButton(btnAll);
             filterGalleryByCategory(null);
         });
 
@@ -76,6 +77,7 @@ fetch("http://localhost:5678/api/categories")
             categoriesContainer.appendChild(categoryFilters);
 
             categoryFilters.addEventListener("click", () => {
+            setActiveButton(categoryFilters);
             filterGalleryByCategory(category.id); 
             });
         }); 
@@ -83,6 +85,16 @@ fetch("http://localhost:5678/api/categories")
     .catch(error => { 
         console.error("Erreur lors du fetch:", error );
     });
+
+
+function setActiveButton(selectedButton){
+    document.querySelectorAll("#filters button").forEach(btn =>{
+        btn.classList.remove("active-tag");
+    });
+    selectedButton.classList.add("active-tag");
+}
+
+
 
 function filterGalleryByCategory(categoryId) {
     const galleryItems = document.querySelectorAll(".gallery figure")
